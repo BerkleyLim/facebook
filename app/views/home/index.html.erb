@@ -2,29 +2,89 @@
   <div class="row">
     <div class="col s12">
 
-      <%= form_tag 'somewhere', id: 'create', class: 'row' do %>
+      <%= form_tag '/home/post', id: 'create', class: 'row' do %>
         <div class="col s12">
           <p><i class="tiny material-icons icon">create</i> 상태 업데이트</p>
-          <p class="input-field"><textarea name="content" class="materialize-textarea" placeholder="무슨 생각을 하고 계신가요?"></textarea></p>
+          <p class="input-field">
+            <textarea name="content" class="materialize-textarea" placeholder="무슨 생각을 하고 계신가요?"></textarea>
+          </p>
           <div class="row">
             <button class="right">올리기</button>
           </div>
         </div>
       <% end %>
-
-      <div class="row posting">
-        <div class="col s12">
-          <p class="user_email">snu@likelion.net</p>
-          <p class="posting_time">3시간</p>
-          <div class="content">
-            <p>난... ㄱㅏ끔...<br>눈물을 흘린ㄷㅏ...</p>
+      
+      <% @post.each do |p| %>
+        <div class="row posting">
+          <div class="col s12">
+            <p class="user_email"><%= p.user.email %></p>
+            <p class="posting_time">
+              <% secondTime = DateTime.now.to_i - p.created_at.to_i %>
+              <% if secondTime < 60 %>
+                <%= secondTime %>초 전
+              <% elsif secondTime < 3600 %>
+                <%= secondTime/60 %>분 전
+              <% elsif secondTime < 86400 %>
+                <%= secondTime/3600 %>시간 전
+              <% else %>
+                <%= secondTime/86400 %>일 전
+              <% end %>
+            </p>
+            <div class="content">
+              <%= p.content %>
+            </div>
+          </div>
+          <div class="col s12" id="like">
+            <!-- 좋아요 버튼 -->
+            <!-- remote:true 일 경우, ajax 구현 가능 -->
+            <div id="like_user_<%= p.id %>">
+              <% if user_signed_in? %>
+                <% if Likeit.where(user_id: current_user.id, posting_id: p.id).take == nil %>
+                  <%= link_to '좋아요', home_likeit_path(name: p.id), class: "likeit", remote: true %>
+                <% else %>
+                  <%= link_to '좋아요 취소', home_likeit_path(name: p.id), class: "likeit", remote: true %>
+                <% end %>
+              <% else %>
+                <%= link_to '좋아요' %>
+              <% end %>
+              
+              <br>
+              
+              <% p.members.each do |e| %>
+                <%= e.email %>
+              <% end %>
+            </div>
           </div>
         </div>
-        <div class="col s12">
-          <!-- 좋아요 버튼 -->
-        </div>
-      </div>
-
+      <% end %>
     </div>
   </div>
 </div>
+
+<script>
+  // $(document).on("click", ".likeit", function() {
+  //   var key = $(this).text();
+  //   if (key == "좋아요") {
+  //     $(this).text("좋아요 취소");
+  //   } else {
+  //     $(this).text("좋아요");
+  //   }
+  // });
+</script>
+<!-- rails에서 제공하는 link_to remote 기능으로 ajax 대체 -->
+<!--<script>-->
+<!--  $(document).on("click", ".likeit", function() {-->
+<!--    var likeit_id = $(this).attr("id");-->
+<!--    $.ajax({  -->
+<!--      method: "POST",-->
+<!--      url: "/home/likeit",-->
+<!--      data: { name: likeit_id },-->
+<!--      success: function(data) {-->
+<!--        $("#like_user_"+likeit_id).append(data);-->
+<!--      },-->
+<!--      error: function() {-->
+<!--        alert("error!!");-->
+<!--      }-->
+<!--    });-->
+<!--  });-->
+<!--</script>-->

@@ -1,0 +1,1 @@
+$("#like_user_"+'<%= @post.id %>').html('<%= escape_javascript(render partial: 'home/liker_list', locals: {members: @like_email, id: @postid}) %>');

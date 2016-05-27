@@ -3,7 +3,12 @@ Rails.application.routes.draw do
   devise_for :users
   root 'home#index'
   get 'home/index'
-
+  get 'home/likeit' => 'home#likeit'
+  get 'home/friend' => 'home#friend'
+  
+  post 'home/post' => 'home#post'
+  post 'home/make_friend' => 'home#make_friend'
+  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
