@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="row">
+    <div class="col s12">
+      <table>
+        <tr>
+          <th>ID</th>
+          <th>Sender_id</th>
+          <th>Receiver_id</th>
+          <th>Status</th>
+        </tr>
+        <% @friendship.each do |f| %>
+          <tr>
+            <td><%= f.id %></td>
+            <td><%= f.sender_id %></td>
+            <td><%= f.receiver_id %></td>
+            <td><%= f.status %></td>
+          </tr>
+        <% end %>
+      </table>
+    </div>
+  </div>
+</div>

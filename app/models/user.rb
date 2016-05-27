@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
   has_many :friendships, foreign_key: :sender_id
   has_many :senders, through: :friendships, class_name: :User
   
-  has_many :friendships, foreign_key: :recevier_id
+  has_many :makefriend, class_name: :friendships, foreign_key: :recevier_id
   has_many :receivers, through: :friendships, class_name: :User
   
   # Include default devise modules. Others available are:

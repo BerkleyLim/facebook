@@ -5,7 +5,14 @@
       <form action="/home/make_friend" method="POST">
         <%= u.email %><br>
         <%= u.created_at.in_time_zone("Asia/Seoul").strftime("%Y년 %m월 %d일   %H시 %M분") %>
+        <br>
+        친구 : 
+        <% u.receivers.each do |r| %>
+          <%= r.email %>,
+        <% end %>
+        
         <input type="hidden" name="receiver" value="<%= u.id %>"/>
+      
         <% if Friendship.where(sender_id: current_user.id, receiver_id: u.id).take.nil? %>
           <% if Friendship.where(sender_id: u.id, receiver_id: current_user.id).take.nil? %>  
             <input type="hidden" name="status" value="request"/>
@@ -19,8 +26,9 @@
         <% elsif Friendship.where(sender_id: current_user.id, receiver_id: u.id).take.status == "request" %>
           <button type="submit" class="btn_friend amber" disabled="disabled">요청 중</button>
         <% else %>
-          <button type="submit" class="btn_friend" disabled="disabled">이미 친구임</button>
+          <button type="submit" class="btn_friend green" disabled="disabled">이미 친구임</button>
         <% end %>
+        
       </form>
       <hr>
     <% end %>

@@ -1,7 +1,7 @@
 class HomeController < ApplicationController
   def index
     if user_signed_in?
-      @post = Posting.all
+      @post = Posting.all.reverse
     else
       redirect_to "/users/sign_in"
     end
@@ -60,14 +60,18 @@ class HomeController < ApplicationController
   
   def make_friend
     if params[:status] == "request"
-      new_friend = Friendship.new(sender_id: current_user.id, receiver_id: params[:receiver], status: "request")
+      new_friend = Friendship.new(sender_id: current_user.id, receiver_id: params[:receiver].to_i, status: "request")
       new_friend.save
     elsif params[:status] == "accept"
-      request_status = Friendship.where(sender_id: params[:receiver], receiver_id: current_user.id).take
+      request_status = Friendship.where(sender_id: params[:receiver].to_i, receiver_id: current_user.id).take
       request_status.update(status: "friend")
     else
       
     end
     redirect_to "/home/friend"
+  end
+  
+  def display
+    @friendship = Friendship.all
   end
 end

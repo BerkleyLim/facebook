@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get 'home/index'
   get 'home/likeit' => 'home#likeit'
   get 'home/friend' => 'home#friend'
+  get '/display' => 'home#display'
   
   post 'home/post' => 'home#post'
   post 'home/make_friend' => 'home#make_friend'
