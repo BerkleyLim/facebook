@@ -2,11 +2,14 @@
   <div class="row">
     <div class="col s12">
 
-      <%= form_tag '/home/post', id: 'create', class: 'row' do %>
+      <%= form_tag '/home/post', id: 'create', class: 'row', multipart: true do %>
         <div class="col s12">
           <p><i class="tiny material-icons icon">create</i> 상태 업데이트</p>
           <p class="input-field">
             <textarea name="content" class="materialize-textarea" placeholder="무슨 생각을 하고 계신가요?"></textarea>
+          </p>
+          <p class="input-field">
+            <input type="file" name="picture"/>
           </p>
           <div class="row">
             <button class="right">올리기</button>
@@ -31,6 +34,7 @@
               <% end %>
             </p>
             <div class="content">
+              <img class="upload_img" src="<%= p.file_name %>"/><br>
               <%= p.content %>
             </div>
           </div>
@@ -51,7 +55,7 @@
               <br>
               
               <% p.members.each do |e| %>
-                <%= e.email %>
+                <%= e.email %>,
               <% end %>
             </div>
           </div>

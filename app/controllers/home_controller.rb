@@ -1,12 +1,22 @@
 class HomeController < ApplicationController
   def index
-    @post = Posting.all
+    if user_signed_in?
+      @post = Posting.all
+    else
+      redirect_to "/users/sign_in"
+    end
   end
   
   def post
     new_post = Posting.new
     new_post.content = params[:content]
     new_post.user_id = current_user.id
+    
+    file = params[:picture]
+    uploader = UploadUploader.new
+    uploader.store!(file)
+    new_post.file_name = uploader.url
+    
     new_post.save
     
     redirect_to "/home/index"

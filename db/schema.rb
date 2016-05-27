@@ -30,9 +30,10 @@ ActiveRecord::Schema.define(version: 20160526094429) do
 
   create_table "postings", force: :cascade do |t|
     t.text     "content"
+    t.string   "file_name",  default: ""
     t.integer  "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   create_table "users", force: :cascade do |t|
