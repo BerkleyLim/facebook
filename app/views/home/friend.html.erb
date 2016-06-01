@@ -11,6 +11,10 @@
           <%= r.email %>,
         <% end %>
         
+        <% u.senders.each do |s| %>
+          <%= s.email %>,
+        <% end %>
+        
         <input type="hidden" name="receiver" value="<%= u.id %>"/>
       
         <% if Friendship.where(sender_id: current_user.id, receiver_id: u.id).take.nil? %>

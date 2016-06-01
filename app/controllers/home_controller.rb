@@ -44,9 +44,12 @@ class HomeController < ApplicationController
       @like_email = @post.members
       
       # link_to Ajax 과정
-      respond_to do |format|
-        format.js
-      end
+      # 역할이 끝나고 나면 해당 View 파일을 찾아가게 된다.
+      # 이 경우에 'likeit.js.erb' 파일을 실행시킨다.
+      
+      # respond_to do |format|
+      #   format.js
+      # end
     end
   end
   
